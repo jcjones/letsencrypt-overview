@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Let's Encrypt - Overview</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="local-css/letsencrypt.css">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/beige.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css'
+                                                                : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <div class="slides">
+        <section>
+          <img src="img/letsencrypt-logo-horizontal.svg" class="plain" style="width: 50%;"/>
+          <p>J.C. Jones</p>
+          <p>Mozilla's Crypto Engineering Team</p>
+          <p>Twitter: @JamesPugJones</p>
+          <aside class="notes">
+            What/Where/Why/How
+            PKI and Policy
+          </aside>
+        </section>
+
+        <section>
+          <h2>A Moment of Historic Reflection</h2>
+          <img class="plain" src="img/netscape.jpg" style="height: 380px;">
+          <ul>
+            <li>In 1995, Netscape released a browser with HTTPS</li>
+            <li>For the first time, everyone had easy access to encrypted, authenticated communications</li>
+          </ul>
+          <aside class="notes">
+            You didn't need to be a corporation with $$$, a government agency with a pile of mathematicians, or even have to understand PGP and cryptographic keys. Started as passwords and CCs, now everything: email, social media, wikipedia articles, etc. Matters a lot to Mozilla (manifesto)...
+          </aside>
+        </section>
+
+        <section style="padding-top: 0;">
+          <h2>20 Years Later</h2>
+          <div>
+            <img src="img/encrypted-vs-unencrypted.png" style="height: 380px;">
+          </div>
+          <ul>
+            <li>Not enough HTTPS on the Internet
+              <ul>
+                <li><a href="http://mzl.la/1LG5eZp">~40% of initial page loads</a></li>
+                <li><a href="http://mzl.la/1LG5cAy">~65% of all subsequent requests</a></li>
+              </ul>
+            </li>
+          </ul>
+          <aside class="notes">
+            Privacy and security are fundamental and must not be treated as optional
+          </aside>
+        </section>
+
+<!--         <section>
+          <h2>Sections:</h2>
+          <ul>
+            <li>What is Let's Encrypt?</li>
+            <li>PKI and Policy</li>
+            <li>Q &amp; A</li>
+          </ul>
+        </section> -->
+
+        <section>
+          <h2>Security is Important</h2>
+          <img src="img/firesheep.png" style="height: 300px;">
+          <ul>
+            <li><b>Confidentiality:</b> Prevent <a href="https://gigaom.com/2015/02/19/dont-let-att-mislead-you-about-its-29-privacy-fee/">spying</a> on what you're doing</li>
+            <li><b>Authenticity:</b> Ensure you're talking to the real site and not <a href="https://citizenlab.org/2015/04/chinas-great-cannon/">part of a DDoS</a> or being served <a href="https://support.google.com/webmasters/answer/3024344">malware</a></li>
+            <li><b>Integrity:</b> Prevent injected <a href="http://arstechnica.com/tech-policy/2014/09/why-comcasts-javascript-ad-injections-threaten-security-net-neutrality/">advertising</a> or <a href="http://www.zdnet.com/article/optus-hands-over-customers-numbers-to-websites/">tracking cookies</a></li>
+          </ul>
+          <aside class="notes">
+            Without HTTPS integrity protection... Verizon SuperCookie. ISPs known to replace ads with their own; this happens a lot in China and India.
+          </aside>
+        </section>
+        <section>
+          <h2>HTTP Injection from <u>Network Operators</u></h2>
+          <blockquote>
+            <p style="font-size: 0.9em;">&quot;We reveal 14 groups of content injections that primarily aim to impose advertisements or even maliciously compromise the client. Most of the financially-motivated false content injection we observed originated from China. Our analysis found indications  that numerous injections originated from networks operated by China Telecom and China Unicom – two of the largest network operators in Asia.&quot;</p>
+          </blockquote>
+          <p>23 Feb 2016, <a href="http://arxiv.org/pdf/1602.07128v1.pdf"><strong>Website-Targeted False Content Injection by Network Operators</strong>, Nakibly, Schcolnik, and Rubin</a></p>
+          <aside class="notes">
+            Here's another recent news item to add to Shogo and Alex's list.
+          </aside>
+        </section>
+
+        <section>
+          <h2>Why Haven't We Fixed This?</h2>
+          <aside class="notes">
+            DAMN YOU, IETF. WHY ISN'T THIS FIXED?
+            OK, so security is pretty important. Why isn't it the default?
+          </aside>
+        </section>
+
+        <section>
+          <h2>It Costs Money</h2>
+          <div>
+            <video src="video/too-much-money-no-audio.mp4" style="height: 300px;" data-autoplay></video>
+          </div>
+          <ul>
+            <li>Certificates are required to set up a secure website</li>
+            <li>The entities selling them want to make money</li>
+          </ul>
+          <aside class="notes">
+            What's even worse than it costing money is that it's about the same cost anywhere in the world, which is a serious impediment to security in emerging markets.
+          </aside>
+        </section>
+
+        <section>
+          <h2>The User Experience is Hard</h2>
+          <img src="img/hates-installing-certificates.jpg" style="height: 360px;">
+          <ul>
+            <li>Manual process, different for every provider</li>
+            <li>This leads to things being expensive, difficult, and proprietary</li>
+          </ul>
+          <aside class="notes">
+            We need something that's free, easy, and open. I'm here to tell you that it exists, it's called LE, and it launched three months ago.
+          </aside>
+        </section>
+
+        <section>
+          <img src="img/letsencrypt-logo-horizontal.svg" class="plain" style="width: 50%;"/>
+          <h2 style="color: #2C3C69; font-family: Gibson, Arial, Helvetica, sans-serif; font-size: 1.6em; font-weight: 600; margin-top: -.25em; text-transform: none;">is a new certificate authority</h2>
+        </section>
+
+        <section>
+          <h2>A <u>Free</u> CA</h2>
+          <img src="img/gratis.png" style="height: 280px;">
+          <p style="font-style: oblique; margin-top: 0;">Things that don't matter:</p>
+          <ul>
+            <li>Ability to pay</li>
+            <li>Where you reside</li>
+            <li>Individual, organization, or corporation</li>
+          </ul>
+          <aside class="notes">
+            Whether a multi-billionaire or a 12-year-old on an allowance. Money == taxes and complicated laws, limiting choice and availability
+          </aside>
+        </section>
+
+        <section>
+          <h2>An <u>Automated</u> CA</h2>
+          <img src="img/automated-ca.png" />
+          <ul>
+            <li>Most of the work in issuing a certificate is in verifying domain control</li>
+            <li>Let's Encrypt uses a <a href="https://tools.ietf.org/html/draft-ietf-acme-acme">standard protocol</a> to verify domain control automatically prior to certificate generation</li>
+            <li>Certificate renewals use this same process</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>A <u>Transparent</u> CA</h2>
+          <img src="img/certificate-transparency.png" style="height: 300px;">
+          <p><a href="https://crt.sh/?Identity=%25&amp;iCAID=7395">All certificates</a> are publicly logged through<br />the <a href="https://www.certificate-transparency.org/">Certificate Transparency</a> system</p>
+          <aside class="notes">
+            Ecosystem often lacks the sunshine we all want. We wanted to build the world's most open CA.
+          </aside>
+        </section>
+
+        <section>
+          <h2>An <u>Open</u> CA</h2>
+          <p>Everything Let's Encrypt uses is open source:</p>
+          <img src="img/github-repo.png" style="height: 240px; margin: 0;">
+          <ul>
+            <li>The software that runs the <a href="https://github.com/letsencrypt/boulder/">certificate authority</a></li>
+            <li>The software you use to <a href="https://github.com/letsencrypt/letsencrypt/">get a certificate</a></li>
+            <li>Even <a href="https://github.com/jcjones/letsencrypt-overview">this presentation</a>!</li>
+          </ul>
+          <h2 style="margin-top: 15px;">Pull requests welcome!</h2>
+          <aside class="notes">
+            
+          </aside>
+        </section>
+
+        <section>
+          <section>
+            <h2>A <u>Cooperative</u> CA</h2>
+            <a href="https://letsencrypt.org/sponsors/">
+              <img style="height: 350px" src="img/sponsors.png"/>
+            </a>
+            <ul>
+              <li>Wide industry sponsorship</li>
+              <li>Community development and support</li>
+              <li>Built on an open standard for all CAs</li>
+            </ul>
+            <aside class="notes">
+              Founding sponsors: Mozilla, Akamai, Cisco, and EFF. When we started, we thought, we'll write this software on the server, etc, client, etc.
+            </aside>
+          </section>
+
+          <section>
+            <h2>Automated Certificate Management Environment (ACME)</h2>
+            <ul>
+              <li>Suppose someone asks for a certificate for <b>example.com</b></li>
+              <li>How do you know they actually own <b>example.com</b>?</li>
+            </ul>
+            <aside class="notes">
+              
+            </aside>
+          </section>
+
+          <section>
+            <h2>Domain Validation</h2>
+            <p>Give them a challenge that only<br />the domain owner can complete:</p>
+            <ul>
+              <li>Provision a DNS record for <br/><b>_acme-challenge.example.com</b></li>
+              <li>Provision a file at <br/><b>http://example.com/.well-known/acme-challenge/</b></li>
+              <li>Configure a TLS server on <b>example.com</b></li>
+            </ul>
+            <aside class="notes">
+              
+            </aside>
+          </section>
+
+          <section>
+            <h2>An Upcoming Standard</h2>
+            <img src="img/ietf-acme.png" style="height: 250px;">
+            <ul>
+              <li>The ACME protocol is in the process being <a href="https://tools.ietf.org/wg/acme/">standardized by the IETF</a> so that it can be used by all CAs</li>
+              <li>Help for users is provided by an open <a href="https://community.letsencrypt.org/">community support system</a></li>
+            </ul>
+            <aside class="notes">
+              IETF, CA/B Forum
+            </aside>
+          </section>
+
+          <section>
+            <h2>Automated Validation</h2>
+            <ul>
+              <li>Having a standard protocol means that you can build tools</li>
+              <li>The vision is for ACME to be built into web servers, to auto-configure HTTPS</li>
+            </ul>
+            <aside class="notes">
+              When you can do automated validation, using this standard, you can build yourself tooling to just lubricate the whole machinery of securing your web sites.
+            </aside>
+          </section>
+
+          <section>
+            <h2>Platform Integration</h2>
+            <ul>
+              <li>Increasing numbers of web hosts (<a href="https://www.dreamhost.com/blog/2015/12/03/lets-encrypt-and-dreamhost/">Dreamhost</a>, <a href="https://community.akamai.com/thread/2782">Akamai</a>, <a href="#">Wordpress.com</a>, Shopify, Cyon.ch, and many more...)</li>
+              <li>Dozens of community-written clients, written in languages from Golang to BASH</li>
+              <li>Future: <tt>mod-acme</tt> for Apache? <a href="https://wiki.mozilla.org/Security/Automation/Winter_Of_Security_2015/Certificate_Automation_tooling_for_Lets_Encrypt">nginx patch in progress!</a></li>
+              <li><a href="https://caddyserver.com/">Caddy</a> HTTP/2 server</li>
+            </ul>
+            <aside class="notes">
+              Able to do this because built on an open standard...
+            </aside>
+          </section>
+
+          <section id="caddy-demo">
+            <h2>The Power of ACME Integration</h2>
+            <video style="height: 500px;" src="video/caddy.mp4" controls></video>
+            <aside class="notes">
+              Caddy Server has Let's Encrypt support turned on by default. Here's a video of the author setting up HTTPS for his site, matt.life; we found this video on YouTube, he's Matt's not associated with LE.
+              [start]
+              After downloading Caddy, he writes a config file for matt.life.
+              Then he launches Caddy. Then he loads the web page, and it's HTTPS.
+              That's it, that's the whole demo. 20 seconds to HTTPS.
+            </aside>
+          </section>
+
+        </section>
+
+        <section>
+          <h2>This Line Keeps Going Upward</h2>
+          <a href="https://letsencrypt.org/stats/">
+            <img class="img-fallback" style="height: 500px"
+                 src="https://plot.ly/~letsencrypt/7.png"
+                 data-fallback="img/le-cert-graph.png"/>
+          </a>
+          <aside class="notes">
+            GA on December 3rd; 1.0M certs covering 2.4M unique FQDNs, which include 1.1M Registered Domains.
+          </aside>
+        </section>
+
+        <section>
+          <h2>Growing the Secure Web</h2>
+          <img src="img/names-issued-elsewhere.png" style="height: 500px;">
+          <aside class="notes">
+            GA on December 3rd; 1.0M certs covering 2.4M unique FQDNs, which include 1.1M Registered Domains.
+          </aside>
+        </section>
+
+        <section>
+          <h2>How Big Is Let's Encrypt?</h2>
+          <img src="img/unexpired-certs-by-issuer.png" style="height: 400px;">
+          <ul>
+            <li>General availability began December 3, 2015 and is already the 4<sup style="font-size: .8em; position: relative; top: -.4em; vertical-align: baseline;">th</sup> largest issuer of certificates on the public web</li>
+          </ul>
+          <aside class="notes">
+            GA on December 3rd; 1.0M certs covering 2.4M unique FQDNs, which include 1.1M Registered Domains.
+          </aside>
+        </section>
+
+        <section>
+          <h2>Only the Beginning&hellip;</h2>
+          <ul>
+            <li class="fragment" style="margin-top: .75em;">Get every website using HTTPS</li>
+            <li class="fragment">Secure <em>all</em> the internet: email, chat, and more!</li>
+          </ul>
+          <aside class="notes">
+            Now that trusted certs are available to any website, we have a path to HTTPS Everywhere.
+          </aside>
+        </section>
+
+        <section>
+          <h2>A Message to the World</h2>
+          <img src="img/verifiedby.png" style="height: 400px;">
+        </section>
+
+        <section>
+          <h2>Questions &amp; Answers</h2>
+          <ul>
+            <li class="fragment">LE Operations?</li>
+            <li class="fragment">Web PKI?</li>
+            <li class="fragment">CA/Browser Forum? IETF?</li>
+            <li class="fragment">HTTPS Everywhere?</li>
+          </ul>
+          <aside class="notes">
+            Let's get your questions. What're your questions? Here's some ideas of things you can ask me about.
+          </aside>
+        </section>
+
+        <section>
+          <img src="img/letsencrypt-logo-horizontal.svg" class="plain" style="width: 50%;"/>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        slideNumber: 'c/t',
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'plugin/notes/notes.js', async: true }
+        ]
+      });
+
+      // If an image has a class "img-fallback" and fails to load, then
+      // fall back to loading the img from the "data-fallback" attribute.
+      for (img of document.getElementsByClassName('img-fallback')) {
+        img.addEventListener("error", function(){
+          this.src = this.getAttribute("data-fallback");
+        });
+      }
+
+    </script>
+
+  </body>
+</html>
