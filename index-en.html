@@ -71,21 +71,23 @@
         </section>
 
         <section style="padding-top: 0;">
-          <h2>20 Years Later</h2>
+          <h2>21 Years Later</h2>
           <div>
             <img src="img/encrypted-vs-unencrypted.png" style="height: 380px;">
           </div>
           <ul>
             <li>Not enough HTTPS on the Internet
               <ul>
-                <li><a href="https://mzl.la/1LG5eZp">~43% of initial page loads</a></li>
-                <li><a href="https://mzl.la/1LG5cAy">~65% of all subsequent requests</a></li>
+                <!-- See:
+                  https://mzl.la/1LG5eZp (41%) / https://mzl.la/1LG5cAy (65%) (October 2015)
+                -->
+                <li><a href="https://mzl.la/29nPizc">~46% of initial page loads</a></li>
+                <li><a href="https://mzl.la/29nOXMV">~63% of all subsequent requests</a></li>
               </ul>
             </li>
           </ul>
           <aside class="notes">
-            Since the release of Let's Encrypt, the percentage has gone up 3%
-            Privacy and security are fundamental and must not be treated as optional
+            Since the release of Let's Encrypt, the percentage has gone up 5%
           </aside>
         </section>
 
@@ -114,7 +116,7 @@
         </section>
 
         <section>
-          <h2>Why Haven't We Fixed This?</h2>
+          <h2>Why has this been so hard to fix?</h2>
           <aside class="notes">
             DAMN YOU, IETF. WHY ISN'T THIS FIXED?
             OK, so security is pretty important. Why isn't it the default?
@@ -149,7 +151,7 @@
 
         <section>
           <img src="img/letsencrypt-logo-horizontal.svg" class="plain" style="width: 50%;"/>
-          <h2 style="color: #2C3C69; font-family: Gibson, Arial, Helvetica, sans-serif; font-size: 1.6em; font-weight: 600; margin-top: -.25em; text-transform: none;">is a new certificate authority</h2>
+          <h2 style="color: #2C3C69; font-family: Gibson, Arial, Helvetica, sans-serif; font-size: 1.6em; font-weight: 600; margin-left: .6em; margin-top: -.25em; text-transform: none;">is here to save the day</h2>
         </section>
 
         <section>
@@ -204,7 +206,7 @@
           <section>
             <h2>A <u>Cooperative</u> CA</h2>
             <a href="https://letsencrypt.org/sponsors/">
-              <img style="height: 350px" src="img/sponsors.png"/>
+              <img style="height: 300px" src="img/sponsors.png"/>
             </a>
             <ul>
               <li>Wide industry sponsorship</li>
@@ -245,6 +247,7 @@
             <img src="img/ietf-acme.png" style="height: 250px;">
             <ul>
               <li>The ACME protocol is in the process being <a href="https://tools.ietf.org/wg/acme/">standardized by the IETF</a> so that it can be used by all CAs</li>
+              <li>Support for ACME is spreading: StartCom (StartSSL) is switching to ACME after multiple security issues with their custom API</li>
               <li>Help for users is provided by an open <a href="https://community.letsencrypt.org/">community support system</a></li>
             </ul>
             <aside class="notes">
@@ -268,7 +271,7 @@
             <ul>
               <li>Increasing numbers of web hosts (<a href="https://www.dreamhost.com/blog/2015/12/03/lets-encrypt-and-dreamhost/">Dreamhost</a>, <a href="https://community.akamai.com/thread/2782">Akamai</a>, <a href="#">Wordpress.com</a>, Shopify, Cyon.ch, and many more...)</li>
               <li>Dozens of community-written clients, written in languages from Golang to BASH</li>
-              <li>Future: <tt>mod-acme</tt> for Apache? <a href="https://wiki.mozilla.org/Security/Automation/Winter_Of_Security_2015/Certificate_Automation_tooling_for_Lets_Encrypt">nginx patch in progress!</a></li>
+              <li>Future: <tt>mod-acme</tt> for Apache? <a href="https://wiki.mozilla.org/Security/Automation/Winter_Of_Security_2015/Certificate_Automation_tooling_for_Lets_Encrypt">nginx patch?</a></li>
               <li><a href="https://caddyserver.com/">Caddy</a> HTTP/2 server</li>
             </ul>
             <aside class="notes">
@@ -298,31 +301,65 @@
                  data-fallback="img/le-cert-graph.png"/>
           </a>
           <aside class="notes">
-            GA on December 3rd; 1.0M certs covering 2.6M unique FQDNs, which include 1.1M Registered Domains.
+            GA on December 3rd; 5.5M certs covering (presumably 14M?) unique FQDNs, which include (presumably 6M) Registered Domains.
           </aside>
         </section>
 
         <section>
           <h2>Growing the Secure Web</h2>
-          <img src="img/names-issued-elsewhere.png" style="height: 500px;">
+          <img src="img/dreamhost.png" style="height: 180px">
+          <ul>
+            <li>Of sites secured with Let's Encrypt, about <a href="img/names-issued-elsewhere.png">94%</a> have never had certificates before</li>
+            <li>Large providers such as DreamHost, WordPress, Shopify, OVH, Akamai, and Bitly have rolled out large-scale deployments</li>
+            <li>Widely used software such as cPanel / WHM now have integrated, automatic certificate generation</li>
+          </ul>
+
           <aside class="notes">
-            GA on December 3rd; 1.0M certs covering 2.6M unique FQDNs, which include 1.1M Registered Domains.
+            OVH (11.67%), cPanel (6.82%), Wordpress (2.01%)
           </aside>
         </section>
 
-        <section>
+        <section style="padding-top: 0;">
           <h2>How Big Is Let's Encrypt?</h2>
-          <img src="img/unexpired-certs-by-issuer.png" style="height: 400px;">
+          <img src="img/pageload-is-ssl.png" style="height: 300px;">
           <ul>
-            <li>General availability began December 3, 2015 and is already the 4<sup style="font-size: .8em; position: relative; top: -.4em; vertical-align: baseline;">th</sup> largest issuer of certificates on the public web</li>
+            <li>General availability began December 3, 2015 and is already the largest issuer of certificates on the web</li>
+            <li>21<sup style="font-size: .8em; position: relative; top: -.4em; vertical-align: baseline;">st</sup> most commonly encountered CA on the web</li>
+            <li>Since its release, HTTPS usage has grown from 39% to 45%, an astounding jump</li>
           </ul>
           <aside class="notes">
             GA on December 3rd; 1.0M certs covering 2.6M unique FQDNs, which include 1.1M Registered Domains.
           </aside>
         </section>
 
+        <section style="padding-top: 0;">
+          <h2>Popular the World 'Round</h2>
+          <img src="img/geographical-popularity.png" style="height: 420px;">
+          <ul>
+            <li>Greatest popularity is North America and Europe, perhaps reflecting availability of documentation, software, and internationalized domain support</li>
+          </ul>
+        </section>
+
         <section>
-          <h2>Only the Beginning&hellip;</h2>
+          <h2>Past &amp; Future</h2>
+          <ul>
+            <li class="fragment">2016 (January): ACME DNS support</li>
+            <li class="fragment">2016 (March): Full XP support</li>
+            <li class="fragment">2016 (July): Full support for IPv6</li>
+            <li class="fragment">2016 (August): Greater rate limits</li>
+            <li class="fragment">2016 (November): Internationalized domain support</li>
+            <li class="fragment">2016 (November): Firefox root integration</li>
+            <li class="fragment">2017 (March): ECDSA intermediaries</li>
+          </ul>
+          <aside class="notes">
+            DC limitations (no IPv6, half-duplex on upstream router)
+            Rates: 20 certs/domain/week, 100 names/cert, 5 dupes/week, renewals exempted (allowing ramp up), 500 regs/IP/3 hours, 300 pending auth/account
+            Firefox 50
+          </aside>
+        </section>
+
+        <section>
+          <h2>A Beautiful Dream&hellip;</h2>
           <ul>
             <li class="fragment" style="margin-top: .75em;">Get every website using HTTPS</li>
             <li class="fragment">Secure <em>all</em> the internet: email, chat, and more!</li>
@@ -333,18 +370,8 @@
         </section>
 
         <section>
-          <h2>A Message to the World</h2>
-          <img src="img/verifiedby.png" style="height: 400px;">
-        </section>
-
-        <section>
           <h2>Questions &amp; Answers</h2>
-          <ul>
-            <li class="fragment">LE Operations?</li>
-            <li class="fragment">Web PKI?</li>
-            <li class="fragment">CA/Browser Forum? IETF?</li>
-            <li class="fragment">HTTPS Everywhere?</li>
-          </ul>
+          <img src="img/verifiedby.png" style="height: 400px;">
           <aside class="notes">
             Let's get your questions. What're your questions? Here's some ideas of things you can ask me about.
           </aside>
