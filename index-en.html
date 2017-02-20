@@ -294,22 +294,21 @@
 
         <section>
           <h2>This Line Keeps Going Upward</h2>
-          <a href="https://letsencrypt.org/stats/">
-            <img class="img-fallback" style="height: 500px"
-                 src="https://plot.ly/~letsencrypt/7.png"
-                 data-fallback="img/le-cert-graph.png"/>
-          </a>
+          <iframe class="img-fallback" style="height: 500px; width: 100%;"
+               src="https://letsencrypt.org/stats-dashboard/"
+               data-fallback="img/le-cert-graph.png"></iframe>
           <aside class="notes">
-            GA on December 3rd; 5.5M certs covering over 9M unique FQDNs.
+            GA on December 3rd; 29M certs covering over 28M unique FQDNs and 13M domain names.
           </aside>
         </section>
 
         <section style="padding-top: 0;">
           <h2>How Big Is Let's Encrypt?</h2>
-          <img src="img/pageload-is-ssl.png" style="height: 300px;">
+          <a href="https://w3techs.com/technologies/history_overview/ssl_certificate">
+            <!-- Alternative link, but slow now: https://censys.io/certificates/report?q=parsed.issuer.organization.raw -->
+            <img src="img/market-size-w3techs.png" style="height: 450px;">
+          </a>
           <ul>
-            <li>General availability began December 3, 2015 and is already the largest issuer of certificates on the web</li>
-            <li>21<sup style="font-size: .8em; position: relative; top: -.4em; vertical-align: baseline;">st</sup> most commonly encountered CA on the web</li>
             <li>Of sites secured with Let's Encrypt, about <a href="img/names-issued-elsewhere.png">94%</a> have never had certificates before</li>
           </ul>
           <aside class="notes">
@@ -323,30 +322,42 @@
             <li>Greatest popularity is North America and Europe, perhaps reflecting availability of documentation, software, and internationalized domain support</li>
           </ul>
         </section>
-        
-        <section>
-          <h2>Growing the Secure Web</h2>
-          <img src="img/dreamhost.png" style="height: 180px">
-          <ul>
-            <li>Large providers such as DreamHost, WordPress, Shopify, OVH, Akamai, and Bitly have rolled out large-scale deployments</li>
-            <li>Widely used software such as cPanel / WHM now have integrated, automatic certificate generation</li>
-            <li>Since its release, HTTPS usage has grown from 38% to 46%, an astounding jump</li>
-          </ul>
 
-          <aside class="notes">
-            OVH (11.67%), cPanel (6.82%), Wordpress (2.01%)
-          </aside>
+        <section>
+          <section>
+            <h2>Growing the Secure Web</h2>
+            <img src="img/dreamhost.png" style="height: 180px">
+            <ul>
+              <li>Large providers such as DreamHost, WordPress, Shopify, OVH, Akamai, and Bitly have rolled out large-scale deployments</li>
+              <li>Widely used software such as cPanel / WHM now have integrated, automatic certificate generation</li>
+              <li>Since its release, HTTPS usage has grown from 38% to 46%, an astounding jump</li>
+            </ul>
+
+            <aside class="notes">
+              OVH (11.67%), cPanel (6.82%), Wordpress (2.01%)
+            </aside>
+          </section>
+          <section>
+            <h2>Growth of Secure Pageloads</h2>
+            <iframe class="img-fallback" style="height: 500px; width: 100%;"
+               src="https://ct.tacticalsecret.com/dashboard/https/"
+               data-fallback="img/pageload-is-ssl.png"></iframe>
+
+            <aside class="notes">
+              After years of slow growth, from 38% to over 50% of web traffic in about a year
+            </aside>
+          </section>
         </section>
 
         <section>
-          <h2>Past &amp; Future</h2>
+          <h2>Past <span class="fragment" data-fragment-index="1">&amp; Future</span></h2>
           <ul>
             <li>2016 (January): ACME DNS support</li>
             <li>2016 (March): Full XP support</li>
             <li>2016 (July): Full support for IPv6</li>
             <li>2016 (August): Greater rate limits</li>
-            <li class="fragment" data-fragment-index="1">2016 (November): Internationalized domain support</li>
-            <li class="fragment" data-fragment-index="1">2016 (November): Firefox root integration</li>
+            <li>2016 (November): Internationalized domain support</li>
+            <li>2016 (November): Firefox root integration</li>
             <li class="fragment" data-fragment-index="1">2017 (March): ECDSA intermediaries</li>
           </ul>
           <aside class="notes">
@@ -416,7 +427,8 @@
       // fall back to loading the img from the "data-fallback" attribute.
       for (img of document.getElementsByClassName('img-fallback')) {
         img.addEventListener("error", function(){
-          this.src = this.getAttribute("data-fallback");
+          imgUrl = this.getAttribute("data-fallback");
+          this.replaceWith('<img src="'+imgUrl+'">');
         });
       }
 
